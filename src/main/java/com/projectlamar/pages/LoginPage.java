@@ -1,0 +1,75 @@
+package com.projectlamar.pages;
+
+import com.projectlamar.drivers.DriverSingleton;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class LoginPage {
+    private WebDriver driver;
+
+    public LoginPage() {
+        this.driver = DriverSingleton.getDriver();
+        PageFactory.initElements(driver, this);
+    }
+
+    @FindBy(xpath = "//input[@id='username']")
+    WebElement txtUsername;
+    @FindBy(xpath = "//input[@id='password']")
+    WebElement txtPassword;
+    @FindBy(xpath = "//button[normalize-space()='Sign In']")
+    WebElement btnSignIn;
+    @FindBy(xpath = "//h1[normalize-space()='Dashboard']")
+    WebElement txtDashboardPage;
+    @FindBy(xpath = "//div[@class='brand']")
+    WebElement txtLoginPage;
+    @FindBy(xpath = "//div[normalize-space()='Username or Password Incorrect!']")
+    WebElement invalidCredentials;
+
+    public void setTxtUsername(String username) {
+        this.txtUsername.sendKeys(username);
+    }
+
+    public void setTxtPassword(String password) {
+        this.txtPassword.sendKeys(password);
+    }
+
+    public void clickBtnSignIn() {
+        this.btnSignIn.click();
+    }
+
+    public void loginUser(String username, String password) {
+        this.txtUsername.sendKeys(username);
+        this.txtPassword.sendKeys(password);
+        this.btnSignIn.click();
+    }
+
+    public String getTextDashboardPage() {
+        String msgLoginPage = "";
+        if (this.invalidCredentials.isDisplayed()){
+            msgLoginPage = this.invalidCredentials.getText();
+        }
+        else if (this.txtDashboardPage.isDisplayed()){
+            msgLoginPage = this.txtDashboardPage.getText();
+        }
+        return msgLoginPage;
+    }
+
+    public String getTxtLoginPage(){
+        return txtLoginPage.getText();
+    }
+
+    public String getTitlePage() {
+        String resultTitle= "";
+        String titlePageNotFound= driver.getTitle();
+        String titlePageLogin = driver.getTitle();
+        if (titlePageNotFound.contains("404 Page Not Found")) {
+            resultTitle = titlePageNotFound;
+        }
+        else if (titlePageLogin.contains("Login Page | PT DIKA")) {
+            resultTitle = titlePageLogin;
+        }
+        return resultTitle;
+    }
+}
