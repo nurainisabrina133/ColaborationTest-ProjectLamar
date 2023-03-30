@@ -1,6 +1,7 @@
 package com.projectlamar.pages;
 
 import com.projectlamar.drivers.DriverSingleton;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -24,14 +25,16 @@ public class LoginPage {
     WebElement txtDashboardPage;
     @FindBy(xpath = "//div[@class='brand']")
     WebElement txtLoginPage;
-    @FindBy(xpath = "//div[normalize-space()='Username or Password Incorrect!']")
+    @FindBy(xpath = "//strong[normalize-space()='Gagal!']")
     WebElement invalidCredentials;
 
     public void setTxtUsername(String username) {
+        this.txtUsername.clear();
         this.txtUsername.sendKeys(username);
     }
 
     public void setTxtPassword(String password) {
+        this.txtPassword.clear();
         this.txtPassword.sendKeys(password);
     }
 
@@ -44,16 +47,11 @@ public class LoginPage {
         this.txtPassword.sendKeys(password);
         this.btnSignIn.click();
     }
-
+    public String getTextInvalidCredentials(){
+        return this.invalidCredentials.getText();
+    }
     public String getTextDashboardPage() {
-        String msgLoginPage = "";
-        if (this.invalidCredentials.isDisplayed()){
-            msgLoginPage = this.invalidCredentials.getText();
-        }
-        else if (this.txtDashboardPage.isDisplayed()){
-            msgLoginPage = this.txtDashboardPage.getText();
-        }
-        return msgLoginPage;
+        return this.txtDashboardPage.getText();
     }
 
     public String getTxtLoginPage(){
@@ -71,5 +69,11 @@ public class LoginPage {
             resultTitle = titlePageLogin;
         }
         return resultTitle;
+    }
+    public void clickTextDashboard(){
+        this.txtDashboardPage.sendKeys(Keys.ENTER);
+    }
+    public String getRequired(){
+        return this.txtUsername.getAttribute("required");
     }
 }

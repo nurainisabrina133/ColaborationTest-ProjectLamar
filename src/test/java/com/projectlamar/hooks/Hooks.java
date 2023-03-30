@@ -44,10 +44,11 @@ public class Hooks {
 
     @AfterAll
     public static void tearDown() {
+        delay(2);
         DriverSingleton.closeObjectInstance();
     }
 
-    static void delay(long second) {
+    public static void delay(long second) {
         try {
             Thread.sleep(second * 1000);
         } catch (InterruptedException e) {

@@ -1,7 +1,7 @@
 Feature: Login Page
 
   Scenario Outline: Check access url login page
-    Given Input url web lamar yang benar "<Url>"
+    Given Input url web lamar "<Url>"
     Then Menampilkan halaman login "<TxtLoginPage>"
     Examples:
       | Url                                     | TxtLoginPage       |
@@ -9,13 +9,16 @@ Feature: Login Page
       | https://dev.ptdika.com/lamar2/login     | Login Page         |
 
   Scenario Outline: Check login page
-    When Input username yang terdaftar "<Username>"
-    And Input password yang terdaftar "<Password>"
+    When User input username "<Username>"
+    And User input password "<Password>"
     And Klik tombol Sign In
     Then Berhasil login dan menampilkan halaman dashboard "<msgResponses>"
 
     Examples:
-      | Username | Password | msgResponses                    |
-      | basdfa   | 12345678 | Username or Password Incorrect! |
-      | bd       | 12345678 | Dashboard                       |
-
+      | Username | Password  | msgResponses    |
+      | bd       | dfjhgfd7y | Gagal!          |
+      | bd234er  | 12345678  | Gagal!          |
+      | bd       |           | true            |
+      |          | dfjhgfd7y | true            |
+      |          |           | true            |
+      | bd       | 12345678  | Dashboard     |
