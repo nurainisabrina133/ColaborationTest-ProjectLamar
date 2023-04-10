@@ -30,33 +30,53 @@ public class DashboardPage {
     WebElement txtDetailDataOffering10;
     @FindBy(xpath = "//input[@type='search']")
     WebElement txtSearch;
+    @FindBy(xpath = "//select[@name='dataTable-detail-clients_length']")
+    WebElement txtSearchClient;
     @FindBy(xpath = "//i[@class='fa fa-search']")
     WebElement btnSearch;
     @FindBy(xpath = "//table[@id='dataTable-detail-offering']//tbody/tr")
-    List<WebElement> tableRows;
+    List<WebElement> tableOfferingRows;
+    @FindBy(xpath = "//table[@id='dataTable-detail-clients']//tbody/tr")
+    List<WebElement> tableClientRows;
     @FindBy(xpath = "//table[@id='dataTable-detail-offering']//tbody/tr/td")
-    List<WebElement> tableColumns;
+    List<WebElement> tableOfferingColumns;
     @FindBy(xpath = "//table[@id='dataTable-detail-offering']")
-    WebElement table;
+    WebElement tableOffering;
+    @FindBy(xpath = "//table[@id='dataTable-detail-clients']")
+    WebElement tableClient;
     @FindBy(xpath = "//td[@class='dataTables_empty']")
     WebElement dataTabelsEmpty;
     @FindBy(xpath = "//select[@name='dataTable-detail-offering_length']")
     WebElement dropdownEntries;
     @FindBy(xpath = "//a[@class='btn btn-sm btn-danger']")
     WebElement btnBack;
+    @FindBy(xpath = "//a[@title='Back']")
+    WebElement btnBackClient;
+    @FindBy(xpath = "//h1[@class='page-header']")
+    WebElement txtJumlahClient;
+    @FindBy(xpath = "//span[@class='pull-right badge bg-primary']")
+    WebElement btnJumlahClient;
+    @FindBy(xpath = "//span[@id='btnSearch']")
+    WebElement btnSearchClient;
+    @FindBy(xpath = "//select[@name='dataTable-detail-clients_length']")
+    WebElement dropdownEntriesClient;
 
     public int getNoOfRows() {
-        return (tableRows.size());
+        return (tableOfferingRows.size());
+    }
+
+    public int getNoOfRowsClient() {
+        return (tableClientRows.size());
     }
 
     public int getNoOfColums() {
-        return (tableColumns.size());
+        return (tableOfferingColumns.size());
     }
 
     public boolean searchOfferingByName(String name) {
         boolean result = false;
         for (int i = 1; i <= getNoOfRows(); i++) {
-            String nameId = table.findElement(By.xpath("//table[@id='dataTable-detail-offering']//tbody/tr[" + i + "]/td[2]")).getText();
+            String nameId = tableOffering.findElement(By.xpath("//table[@id='dataTable-detail-offering']//tbody/tr[" + i + "]/td[2]")).getText();
             System.out.println(nameId);
             if (nameId.equals(name)) {
                 result = true;
@@ -75,7 +95,11 @@ public class DashboardPage {
     }
 
     public void clickBtnSearch() {
-        this.btnSearch.click();
+        if (this.btnSearch.isDisplayed()) {
+            this.btnSearch.click();
+        } else if (this.btnSearchClient.isDisplayed()) {
+            this.btnSearchClient.click();
+        }
     }
 
     public void clickBtnViewData7Hari() {
@@ -104,15 +128,24 @@ public class DashboardPage {
         this.dropdownEntries.click();
     }
 
-    public void selectValueDorpdown(String value) {
+    public void clickDropdownEntriesClient() {
+        this.dropdownEntriesClient.click();
+    }
+
+    public void selectValueDropdownOffering(String value) {
         Select drpEntires = new Select(dropdownEntries);
+        drpEntires.selectByValue(value);
+    }
+
+    public void selectValueDropdownClient(String value) {
+        Select drpEntires = new Select(dropdownEntriesClient);
         drpEntires.selectByValue(value);
     }
 
     public boolean countValue(int value) {
         boolean result = false;
         for (int i = 1; i <= getNoOfRows(); i++) {
-            if (i <= 10) {
+            if (i <= value) {
                 result = true;
             }
         }
@@ -121,5 +154,41 @@ public class DashboardPage {
 
     public void clickBtnBack() {
         this.btnBack.click();
+    }
+
+    public void clickBtnBackClient() {
+        this.btnBackClient.click();
+    }
+
+    public String getTxtJumlahClient() {
+        return this.txtJumlahClient.getText();
+    }
+
+    public void clickBtnJumlahClient() {
+        this.btnJumlahClient.click();
+    }
+
+    public boolean searchClientByName(String client) {
+        boolean result = false;
+        for (int i = 1; i <= getNoOfRowsClient(); i++) {
+            String clientId = tableClient.findElement(By.xpath("//table[@id='dataTable-detail-clients']//tbody/tr[" + i + "]/td[2]")).getText();
+            System.out.println(clientId);
+            if (clientId.equals(client)) {
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    public boolean countValueClients(int value) {
+        boolean result = false;
+        for (int i = 1; i <= getNoOfRowsClient(); i++) {
+            if (i <= 10) {
+                result = true;
+            } else if (i >= 10 && i <= 25) {
+                result = true;
+            }
+        }
+        return result;
     }
 }

@@ -4,6 +4,11 @@ Feature: Dashboard - 14 Hari
     When Klik tombol view detail 14 hari
     Then Menampilkan halaman form detail data offering "Detail Data Offering"
 
+  Scenario: Show Entries
+    When Klik dropdown value
+    And Select value entire "10"
+    Then Menampilkan data offering dengan jumlah record berdasarkan value
+
   Scenario: Search Data Offering Valid
     When Input keyword by name "Sitti"
     And Click tombol search
@@ -18,11 +23,6 @@ Feature: Dashboard - 14 Hari
       | Keyword       |
       | yangseru      |
       | aB12@#$%dfg>. |
-
-  Scenario: Show Entries
-    When Klik dropdown value
-    And Select value entire "10"
-    Then Menampilkan data offering dengan jumlah record berdasarkan value
 
   Scenario: Back to Dashboard Page
     When Klik tombol back

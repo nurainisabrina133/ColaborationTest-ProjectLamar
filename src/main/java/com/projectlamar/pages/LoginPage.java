@@ -70,9 +70,6 @@ public class LoginPage {
         }
         return resultTitle;
     }
-    public void clickTextDashboard(){
-        this.txtDashboardPage.sendKeys(Keys.ENTER);
-    }
     public String getRequired(){
         return this.txtUsername.getAttribute("required");
     }

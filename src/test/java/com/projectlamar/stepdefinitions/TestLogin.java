@@ -61,10 +61,11 @@ public class TestLogin {
             Assert.assertTrue(loginPage.getRequired().contains(txtDashboardPage));
             extentTest.log(LogStatus.PASS,"Menampilkan pesan required");
         }else if (txtDashboardPage.contains("Dashboard")){
-            loginPage.clickTextDashboard();
+            driver.switchTo().alert().accept();
             Hooks.delay(2);
             Assert.assertTrue(loginPage.getTextDashboardPage().contains(txtDashboardPage));
             extentTest.log(LogStatus.PASS,"Menampilkan halaman dashboard");
+            Hooks.delay(1);
         }
     }
 
