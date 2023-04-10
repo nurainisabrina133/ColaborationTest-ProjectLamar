@@ -26,7 +26,6 @@ public class TestRTODataPengajuan {
 
     @When("Klik Approve RRF")
     public void klik_approve_rrf() {
-        driver.get("https://dev.ptdika.com/lamar2/login");
         loginPage.loginUser("m", "m1");
         rtoDataPengajuanPage.clickBtnApproveRRF();
         extentTest.log(LogStatus.PASS, "Klik Approve RRF");
