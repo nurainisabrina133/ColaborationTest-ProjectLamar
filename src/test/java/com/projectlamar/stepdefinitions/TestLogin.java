@@ -3,6 +3,7 @@ package com.projectlamar.stepdefinitions;
 import com.projectlamar.hooks.Hooks;
 import com.projectlamar.pages.LoginPage;
 import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -18,33 +19,54 @@ public class TestLogin {
         driver = Hooks.driver;
         extentTest =Hooks.extentTest;
     }
-    @Given("Input url web lamar yang benar {string}")
-    public void input_url_web_lamar_yang_benar(String url) {
+    @Given("Input url web lamar {string}")
+    public void input_url_web_lamar(String url) {
         driver.get(url);
+        extentTest.log(LogStatus.PASS,"Input url web lamar");
+        Hooks.delay(1);
     }
 
     @Then("Menampilkan halaman login {string}")
     public void menampilkan_halaman_login(String expect) {
         Assert.assertTrue(loginPage.getTitlePage().contains(expect));
+        extentTest.log(LogStatus.PASS,"Menampilkan halaman login");
     }
 
-    @When("Input username yang terdaftar {string}")
-    public void input_username_yang_terdaftar(String username) {
+    @When("User input username {string}")
+    public void user_input_username(String username) {
         loginPage.setTxtUsername(username);
+        extentTest.log(LogStatus.PASS,"User input username");
     }
 
-    @When("Input password yang terdaftar {string}")
-    public void input_password_yang_terdaftar(String password) {
+    @When("User input password {string}")
+    public void user_input_password(String password) {
         loginPage.setTxtPassword(password);
+        extentTest.log(LogStatus.PASS,"User input password");
     }
 
     @When("Klik tombol Sign In")
     public void klik_tombol_sign_in() {
         loginPage.clickBtnSignIn();
+        Hooks.delay(1);
+        extentTest.log(LogStatus.PASS,"Klik Tombol Sign In");
     }
 
     @Then("Berhasil login dan menampilkan halaman dashboard {string}")
     public void berhasil_login_dan_menampilkan_halaman_dashboard(String txtDashboardPage) {
-        Assert.assertTrue(loginPage.getTextDashboardPage().contains(txtDashboardPage));
+        if (txtDashboardPage.contains("Gagal!")){
+            Assert.assertTrue(loginPage.getTextInvalidCredentials().contains(txtDashboardPage));
+            extentTest.log(LogStatus.PASS,"Menampilkan alert Invalid Credentials");
+            Hooks.delay(1);
+        }else if (txtDashboardPage.contains("true")){
+            Assert.assertTrue(loginPage.getRequired().contains(txtDashboardPage));
+            extentTest.log(LogStatus.PASS,"Menampilkan pesan required");
+        }else if (txtDashboardPage.contains("Dashboard")){
+            loginPage.clickTextDashboard();
+            Hooks.delay(2);
+            Assert.assertTrue(loginPage.getTextDashboardPage().contains(txtDashboardPage));
+            extentTest.log(LogStatus.PASS,"Menampilkan halaman dashboard");
+        }
     }
+
+
 }
